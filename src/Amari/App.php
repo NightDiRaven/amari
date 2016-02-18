@@ -26,7 +26,7 @@ class App {
 	}
 
 	public function helpers(){
-		require_once ('helpers/helpers.php');
+		Helpers\Helper::initiate();
 	}
 
 	public function initiate($body){

@@ -21,6 +21,8 @@ class Helper {
 		self::$config_path = realpath('./config/') . '/';
 		self::$storage_path = realpath('./resources/') . '/';
 		self::loadEnv();
+
+		require_once ('global_helpers.php');
 	}
 
 	public static function app_path() {

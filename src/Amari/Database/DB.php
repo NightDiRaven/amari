@@ -29,7 +29,6 @@ class DB {
 		return self::$_instance;
 	}
 
-
 	protected function prepareConnect(){
 		$this->connections = config('database.connections');
 		$this->driver = config('database.driver');
