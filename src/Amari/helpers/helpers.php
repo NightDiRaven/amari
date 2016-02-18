@@ -2,7 +2,7 @@
 
 //GLOBAL NAMESPACE FOR THE NAME OF KURONEKO
 
-Amari\Helpers\Helper::initiate();
+\Amari\Helpers\Helper::initiate();
 
 function camel_case($string) {
 	return str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $string)));
@@ -13,11 +13,11 @@ function env($param1, $param2) {
 }
 
 function app_path($value = '') {
-	return Helpers::app_path() . $value;
+	return \Amari\Helpers\Helper::app_path() . $value;
 }
 
 function base_path($value = '') {
-	return Helpers::base_path() . $value;
+	return \Amari\Helpers\Helper::base_path() . $value;
 }
 
 /**
@@ -25,7 +25,7 @@ function base_path($value = '') {
  * @return string
  */
 function storage_path($value = '') {
-	return Helpers::storage_path() . $value;
+	return \Amari\Helpers\Helper::storage_path() . $value;
 }
 
 /**
@@ -36,7 +36,7 @@ function storage_path($value = '') {
  */
 function config($value = null) {
 	if($value !== null)
-		return Helpers::config($value);
+		return \Amari\Helpers\Helper::config($value);
 }
 
 /**
