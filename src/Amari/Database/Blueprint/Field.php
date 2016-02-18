@@ -26,7 +26,7 @@ class Field {
 	}
 
 	public function nullable($flag = true){
-		$this->prove('nullable', $flag);
+		return $this->prove('nullable', $flag);
 	}
 
 	public function primary(){
@@ -34,19 +34,32 @@ class Field {
 		$this->prove('index', false);
 		$this->prove('unique', false);
 		$this->prove('nullable', false);
+		return $this;
+	}
+
+
+	public function references($field){
+		$this->prove('index', true);
+		$references = new Reference($field);
+		$this->prove('references', $references);
+		return $references;
 	}
 
 	public function index(){
 		$this->prove('index', true);
+		return $this;
 	}
 
 	public function increment(){
 		$this->prove('auto', true);
+		return $this;
 	}
 
 	public function unique(){
 		$this->prove('unique', true);
+		return $this;
 	}
+
 
 	public function getRaw() {
 		return $this->raw;

@@ -1,0 +1,22 @@
+<?php
+namespace App\Database\Migrations;
+
+use Amari\Database\Blueprint\Schema;
+use Amari\Database\Blueprint\Blueprint;
+use Amari\Database\Migrations\Migration;
+
+class [[classname]] extends Migration {
+
+
+	public function up(){
+
+		Schema::create('[[tablename]]', function (Blueprint $table) {
+			$table->increments('id');
+		});
+
+	}
+
+	public function down(){
+		Schema::drop('[[tablename]]')
+	}
+}

@@ -28,6 +28,14 @@ class Blueprint {
 		$this->idxs[] = $fields;
 	}
 
+	public function increments($field){
+		return $this->integer($field)->primary();
+	}
+
+	public function string($field,$length = 255){
+		return $this->varchar($field, $length);
+	}
+
 	public function unique(Array $fields){
 		$this->uniq[] = $fields;
 	}
