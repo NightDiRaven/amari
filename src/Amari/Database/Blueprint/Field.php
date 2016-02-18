@@ -60,7 +60,7 @@ class Field {
 		return $this;
 	}
 
-	public function default($value){
+	public function defaults($value){
 		$this->prove('default', $value);
 		return $this;
 	}
