@@ -52,7 +52,9 @@ class Schema {
 					((isset($raw['references']) && $raw['references']->full())?
 						(' references '.$raw['references']->on.'('.$raw['references']->field.')'.($raw['references']->on_delete?' on delete '.$raw['references']->on_delete:'')):
 						(isset($raw['primary']) && $raw['primary']?' PRIMARY KEY':'').
-						(isset($raw['nullable']) && $raw['nullable']?'':' NOT NULL').', ');
+						(isset($raw['default']) ?
+							(' DEFAULT '.$raw['default']):
+							(isset($raw['nullable']) && $raw['nullable']?'':' NOT NULL')).', ');
 
 			if(isset($raw['index']) && $raw['index']) $postSQL[] = $this->index($raw['name']);
 			elseif(isset($raw['unique']) && $raw['unique']) $postSQL[] =  $this->index($raw['name'], true);

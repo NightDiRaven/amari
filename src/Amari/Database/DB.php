@@ -71,25 +71,11 @@ class DB {
 			return $this->_db;
 	}
 
-	public function create($table, $fields){
-		$fields = implode(', ', array_map( function ($v, $k) { return $k . ' ' . $v; }, $fields, array_keys($fields)));
+	public function create($table, $collback){
+		return Blueprint\Schema::create($table,$collback);
+	}
 
-
-		$sql ="CREATE table $table(
-			 ID INT( 11 ) AUTO_INCREMENT PRIMARY KEY,
-			 Prename VARCHAR( 50 ) NOT NULL,
-			 Name VARCHAR( 250 ) NOT NULL,
-			 StreetA VARCHAR( 150 ) NOT NULL,
-			 StreetB VARCHAR( 150 ) NOT NULL,
-			 StreetC VARCHAR( 150 ) NOT NULL,
-			 County VARCHAR( 100 ) NOT NULL,
-			 Postcode VARCHAR( 50 ) NOT NULL,
-			 Country VARCHAR( 50 ) NOT NULL);" ;
-		$db->exec($sql);
-
-
-		$this->pdo()->exec('CREATE TABLE '.$table.'('.$fields.')');
-
-
+	public function drop($table){
+		return Blueprint\Schema::drop($table);
 	}
 }

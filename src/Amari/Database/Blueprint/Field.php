@@ -60,6 +60,10 @@ class Field {
 		return $this;
 	}
 
+	public function default($value){
+		$this->prove('default', $value);
+		return $this;
+	}
 
 	public function getRaw() {
 		return $this->raw;

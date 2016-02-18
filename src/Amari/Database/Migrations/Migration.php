@@ -9,8 +9,11 @@
 namespace Amari\Database\Migrations;
 
 
-abstract class Migration {
+abstract class Migration implements IMigration{
 	public function check(){
 
 	}
+
+	abstract public function up();
+	abstract public function down();
 }
