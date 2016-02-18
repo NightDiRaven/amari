@@ -1,0 +1,12 @@
+{
+    "name": "nightdiraven/amari",
+    "description": "First package",
+    "authors": [
+        {
+            "name": "Ivan Dolgov",
+            "email": "nightdiraven@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
