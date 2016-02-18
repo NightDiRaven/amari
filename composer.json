@@ -8,5 +8,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "autoload": {
+        "psr-0": {
+            "Amari": "src/"
+        }
+    }
 }
