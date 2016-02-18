@@ -10,8 +10,26 @@ namespace Amari;
 
 
 class App {
-	public static function world()
-	{
-		return 'Hello World, Composer!';
+
+	protected static $_instance;
+
+	protected function __construct() {
+		$this->helpers();
+	}
+
+	protected function __clone() { }
+
+	public static function instance($params = null){
+		if(!(self::$_instance instanceof self))
+			self::$_instance = new App($params);
+		return self::$_instance;
+	}
+
+	public function helpers(){
+		require_once ('helpers/helpers.php');
+	}
+
+	public function initiate($body){
+		return $body();
 	}
 }
