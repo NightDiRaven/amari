@@ -24,7 +24,7 @@ class Make extends Common{
 	public function index($subCommand){
 		$this->kernel()->say('Please type what you want create');
 		foreach($this->lists() as $name=>$desc)
-			$this->kernel()->send($this->kernel()->color(' '.$title.':'.$name, '32'))
+			$this->kernel()->send($this->kernel()->color(' '.$this->title().':'.$name, '32'))
 				->tab(strlen($name)>7?1:2)
 				->string($this->kernel()->color($desc, 0));
 	}
