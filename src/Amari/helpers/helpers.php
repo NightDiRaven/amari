@@ -2,6 +2,8 @@
 
 //GLOBAL NAMESPACE FOR THE NAME OF KURONEKO
 
+require_once('Helper.php');
+
 \Amari\Helpers\Helper::initiate();
 
 function camel_case($string) {
