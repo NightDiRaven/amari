@@ -16,10 +16,11 @@ class Helper {
 	protected static $config;
 
 	public static function initiate() {
-		self::$app_path = realpath('./app') . '/';
-		self::$base_path = realpath('.') . '/';
-		self::$config_path = realpath('./config/') . '/';
-		self::$storage_path = realpath('./resources/') . '/';
+		$base_path = realpath('.');
+		self::$app_path = $base_path . '/app/';
+		self::$base_path = $base_path . '/';
+		self::$config_path = $base_path . '/config/';
+		self::$storage_path = $base_path . '/resources/';
 		self::loadEnv();
 
 		require_once ('global_helpers.php');

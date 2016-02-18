@@ -8,8 +8,8 @@ require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Compos
 Amari\App::instance()->initiate(function(){
 
 
-	var_dump(db());
-	var_dump(storage_path('231'));
 	var_dump(base_path());
+	var_dump(config('app.db'));
+	var_dump(db()->pdo());
 });
 

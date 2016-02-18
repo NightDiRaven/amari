@@ -40,6 +40,7 @@ class Kernel {
 			$this->commands[$classInstance->title()] = $classInstance;
 		else
 			$this->error('Class '.$class.' not implement Amari\Console\Commands\ICommand interface');
+		return $this;
 	}
 
 	public function color($text, $color = 0){
