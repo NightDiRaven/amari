@@ -24,9 +24,9 @@ class Make extends Common{
 	public function index($subCommand){
 		$this->kernel()->say('Please type what you want create');
 		foreach($this->lists() as $name=>$desc)
-			$this->kernel()->send($this->color(' '.$title.':'.$name, '32'))
+			$this->kernel()->send($this->kernel()->color(' '.$title.':'.$name, '32'))
 				->tab(strlen($name)>7?1:2)
-				->string($this->color($desc, 0));
+				->string($this->kernel()->color($desc, 0));
 	}
 
 	public function doMigration($args){
@@ -45,7 +45,7 @@ class Make extends Common{
 		db()->create('migrations', function($table){
 			$table->increments('id');
 			$table->string('filename');
-			$table->boolean('run')->defaults(0);
+			$table->boolean('run')->defaults(false);
 		});
 
 		$path_to_new = app_path('database/migrations/'.$filename);

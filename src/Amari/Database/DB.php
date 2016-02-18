@@ -55,14 +55,12 @@ class DB {
 	}
 
 	protected function connectSqlite(){
-		if(!($this->_db = new PDO('sqlite:'.$this->options['database'])))
-			throw new Exception('Cannot connect to database'.$this->driver);
+		$this->_db = new PDO('sqlite:'.$this->options['database']);
 	}
 
 	protected function connectPgsql(){
 		$params = 'pgsql:dbname='.$this->options['database'].' host='.$this->options['host'].' user='.$this->options['username'].' password='.$this->options['password'];
-		if(!($this->_db = new PDO($params)))
-			throw new Exception('Cannot connect to database'.$this->driver);
+		$this->_db = new PDO($params);
 	}
 
 
