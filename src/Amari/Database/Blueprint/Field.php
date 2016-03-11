@@ -33,7 +33,7 @@ class Field {
 		$this->prove('primary', true);
 		$this->prove('index', false);
 		$this->prove('unique', false);
-		$this->prove('nullable', false);
+		$this->prove('nullable', true);
 		return $this;
 	}
 
@@ -61,7 +61,7 @@ class Field {
 	}
 
 	public function defaults($value){
-		$this->prove('default', $value?$value:'false');
+		$this->prove('default', $value!==false?$value:'false');
 		return $this;
 	}
 

@@ -39,9 +39,6 @@ class Make extends Common{
 
 		$filename = date("Y-m-d_H-i-s_").$safeName.'.php';
 
-
-
-
 		db()->create('migrations', function($table){
 			$table->increments('id');
 			$table->string('filename');

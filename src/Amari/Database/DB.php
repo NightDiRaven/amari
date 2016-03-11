@@ -38,14 +38,14 @@ class DB {
 		}
 	}
 
-	public function connect(){
+	protected function connect(){
 		$connectMethod = 'connect'.ucfirst($this->driver);
 		if(method_exists($this,$connectMethod)){
 			$this->$connectMethod();
 		} else throw new Exception('No driver support:'.$this->driver);
 	}
 
-	public function check(){
+	protected function check(){
 		if(!$this->_db){
 			if(!$this->ready)
 				$this->prepareConnect();
@@ -64,9 +64,31 @@ class DB {
 	}
 
 
-	public function pdo(){
+	protected function pdo(){
 		if($this->check())
 			return $this->_db;
+	}
+
+	protected function execute($sql, $values){
+		$status = $sql->execute(is_array($values)? $values : null);
+		if(!$status) var_dump($sql->errorInfo());
+		return $status;
+	}
+
+	// PUBLIC METHODS
+
+	public function raw($sql,$values = false){
+		$psql = $this->pdo()->prepare($sql);
+		return ($psql)? $this->execute($psql, $values) : false;
+	}
+
+	public function table($table){
+		$this->check();
+		return Blueprint\Table::instance($table);
+	}
+
+	public function driver() {
+		return $this->driver;
 	}
 
 	public function create($table, $collback){
