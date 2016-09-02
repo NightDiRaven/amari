@@ -1,6 +1,6 @@
 {
     "name": "nightdiraven/amari",
-    "description": "First package",
+    "description": "Some monkey translation service and json field for laravel. Do not install it. I'm serious.",
     "authors": [
         {
             "name": "Ivan Dolgov",
@@ -10,7 +10,9 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=7.0",
+        "laravel/laravel": ">=5.0",
+        "intervention/imagecache": ">2.0"
     },
     "autoload": {
         "psr-0": {
