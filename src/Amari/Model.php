@@ -9,8 +9,8 @@ use Amari\Translatable\Contracts\TranslatableContract;
 /**
  * Class Model
  *
- * @method Builder whereIn($key, array $hash)
- * @method Collection get()
+ * @method \Illuminate\Database\Query\Builder whereIn($key, array $hash)
+ * @method \Illuminate\Database\Eloquent\Collection get()
  * @package Amari
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model {
