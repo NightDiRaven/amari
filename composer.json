@@ -11,8 +11,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.0",
-        "laravel/laravel": ">=5.0",
-        "intervention/imagecache": ">2.0"
+        "intervention/imagecache": ">=2.0"
     },
     "autoload": {
         "psr-0": {
