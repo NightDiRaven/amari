@@ -8,7 +8,7 @@
         }
     ],
     "license": "MIT",
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "require": {
         "php": ">=7.0",
         "intervention/imagecache": ">=2.0"
