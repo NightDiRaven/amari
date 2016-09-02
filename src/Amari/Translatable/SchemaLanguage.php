@@ -13,7 +13,7 @@ class SchemaLanguage {
 	 * @return string
 	 */
 	public static function formatName(string $name) : string {
-		return config('langs.db.prefix') . str_singular($name) . config('langs.db.postfix');
+		return config('langs.db.prefix') . str_singular($name) . config('langs.db.postfix', '_translations');
 	}
 
 	/**
