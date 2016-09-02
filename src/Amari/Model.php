@@ -18,7 +18,7 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
 	public static function boot() {
 		parent::boot();
 
-		static::saving(function (Model $item) { if ($item instanceof SluggableContract) $item->generateSlug(); });
+		static::saving(function (Model $item) { if($item->isDirty()) $item->saveLangs(); elseif ($item instanceof SluggableContract) $item->generateSlug(); });
 		static::saved(function (Model $item) { if ($item instanceof TranslatableContract) $item->saveLangs(); });
 	}
 
