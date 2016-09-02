@@ -6,6 +6,13 @@ use Amari\Files\Image;
 use Amari\Sluggable\Contracts\SluggableContract;
 use Amari\Translatable\Contracts\TranslatableContract;
 
+/**
+ * Class Model
+ *
+ * @method Builder whereIn($key, array $hash)
+ * @method Collection get()
+ * @package Amari
+ */
 abstract class Model extends \Illuminate\Database\Eloquent\Model {
 
 	public static function boot() {

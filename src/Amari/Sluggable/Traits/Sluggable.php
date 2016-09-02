@@ -59,7 +59,7 @@ trait Sluggable {
 	/**
 	 * Call it in static boot method before save
 	 */
-	protected function generateSlug() {
+	public function generateSlug() {
 		$attrs = $this->getDirty();
 
 		// process only changed slugs or new items without provided slug
