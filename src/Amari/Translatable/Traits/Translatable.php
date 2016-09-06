@@ -64,10 +64,6 @@ trait Translatable {
 		return [];
 	}
 
-	public function translatable() {
-		return $this->translatable;
-	}
-
 	public function saveLangs(){
 		$prepare = [];
 
@@ -85,7 +81,7 @@ trait Translatable {
 			foreach ($attrs as $name=>$value)
 				$clone->$name = $value;
 			$one = [];
-			foreach($clone->translatable() as $translatable)
+			foreach($clone->getTranslatable() as $translatable)
 				$one[$translatable] = $clone->$translatable;
 			$prepare[$id] = $one;
 		}
@@ -118,4 +114,39 @@ trait Translatable {
 			return $v->getAttribute($parts[0]);
 		} else return null;
 	}
+
+	public function getTranslatable() : array {
+		return $this->translatable;
+	}
+
+	public function getJson() : array {
+		return isset(static::$json) ? static::$json : [];
+	}
+
+	/**
+	 * Get all translation of model and fill for save
+	 *
+	 * @param array $data
+	 * @param array $exclude
+	 * @return $this
+	 */
+	public function expand(array $data = [], $exclude = ['content']) {
+		foreach (\Amari\Translatable\Services\Locale::instance()->otherLangs() as $lang=>$id){
+			$tranModel = $this->cloneMorph($lang);
+			foreach ($this->getJson() as $field => $options) foreach ($options as $param) {
+				$paramName =$param.'__'.$lang.'__';
+				$this->$paramName = $tranModel->$param;
+			}
+			foreach ($this->getTranslatable() as $param) if(!in_array($param, $exclude)) {
+				$paramName = $param.'__'.$lang.'__';
+				$this->$paramName = $tranModel->$param;
+			}
+
+		}
+		foreach ($data as $item => $value){
+			$this->$item = $value;
+		}
+		return $this;
+	}
+
 }
