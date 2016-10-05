@@ -18,7 +18,7 @@ class Locale {
 
 	public function __construct() {
 		$this->app = app();
-		if (Schema::hasTable('langs')) {
+		if (1 or Schema::hasTable('langs')) {
 			if (count($this->full = Language::all('id', 'code', 'main', 'title')) == 0) {
 				$this->full = collect([Language::addMainLocale()]);
 			}

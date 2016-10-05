@@ -31,10 +31,10 @@ trait Jsonable {
 	public function checkTypes($data) {
 		if (is_array($data)) foreach ($data as $i => &$items) if (is_array($items)) foreach ($items as $key => &$value) if (array_key_exists('_' . $key, $items)) switch ($items['_' . $key]) {
 			case 'image':
-				$value = new Image('', $value);
+				$value = new Image($value);
 				break;
 			case 'file':
-				$value = new File('', $value);
+				$value = new File($value);
 				break;
 		}
 

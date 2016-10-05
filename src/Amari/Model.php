@@ -2,9 +2,11 @@
 
 namespace Amari;
 
+use Amari\Files\File;
 use Amari\Files\Image;
 use Amari\Sluggable\Contracts\SluggableContract;
 use Amari\Translatable\Contracts\TranslatableContract;
+use Illuminate\Support\Collection;
 
 /**
  * Class Model
@@ -27,8 +29,28 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model {
 	}
 
 	public function backgroundImage($image = null, $thumb = 'original', $clases = '', $nophoto = 'no-photo', $exists = false) {
+		if($image instanceof Collection){
+			$exists = false;
+			foreach ($image as $img){
+				$img = $img['image'];
+				if($img->exists() or $img->tmpExists()) {
+					$image = $img;
+					$exists = true;
+					break;
+				}
+			}
+		} elseif(!($image instanceof Image) and ($image instanceof File)){
+			$exists = false;
+		} else {
+			/** @var Image $image */
+			$exists = ($image and ($exists = with($image = ($image instanceof Image) ? $image : new Image($this->$image))->exists()));
+			if (!$exists and $image->tmpExists()) {
+				$image->save();
+				$exists = true;
+			}
+		}
 		return str_replace(['_b','_c'],[
-			'_b' => ($image and ($exists = with($image = ($image instanceof Image)? $image : new Image($this->$image))->exists())) ? $image->thumbnail($thumb) : '/img/no_foto.svg',
+			'_b' => $exists ? $image->thumbnail($thumb) : '/img/no_foto.svg',
 			'_c' => ($clases or !$exists) ? $clases.($exists?'':' '.$nophoto):''
 		], $exists?'style="background-image: url(_b)" class="_c"':'class="_c"');
 	}

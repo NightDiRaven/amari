@@ -29,9 +29,9 @@ trait Sluggable {
 	 * @param Builder $q
 	 * @param string  $slug
 	 *
-	 * @return Builder
+	 * @return $this|null
 	 */
-	public static function scopeSlugOrFail($q, string $slug) : Builder {
+	public static function scopeSlugOrFail($q, string $slug) {
 		return $q->where('slug', $slug)->first() ?? abort(404);
 	}
 

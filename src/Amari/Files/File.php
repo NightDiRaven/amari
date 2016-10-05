@@ -15,7 +15,7 @@ class File {
 	protected $filename;
 
 	function __construct(string $filename) {
-		$this->filename = $filename;
+		$this->filename = str_replace(static::getUploadPath().'/','',$filename);
 	}
 
 	public function thumbnail(string $template = 'original') : string {
@@ -23,11 +23,11 @@ class File {
 	}
 
 	public function exists() : bool {
-		return file_exists($this->realPath());
+		return is_file($this->realPath());
 	}
 
 	public function tmpExists() : bool {
-		return file_exists($this->tmpRealPath());
+		return is_file($this->tmpRealPath());
 	}
 
 	public function link() : string {
@@ -43,10 +43,10 @@ class File {
 	}
 
 	public function realPath() : string {
-		return public_path().$this->path();
+		return public_path($this->path());
 	}
 	public function tmpRealPath() : string {
-		return public_path().$this->tmpPath();
+		return public_path($this->tmpPath());
 	}
 
 	public function save() : bool {

@@ -8,7 +8,7 @@ class Image extends File {
 	/**
 	 * @return string
 	 */
-	public function info() {
+	public function info() : string {
 		if ($filename = $this->resolvePath()) {
 			list($width, $height) = getimagesize($filename);
 
@@ -31,7 +31,7 @@ class Image extends File {
 				$template,
 				$this->getFilename(),
 			]);
-		else return null;
+		else return '';
 	}
 
 	protected static function getUploadPath() : string {
