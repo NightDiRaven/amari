@@ -4,18 +4,20 @@ namespace Amari\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model {
+class Role extends Model
+{
 
-	protected $table = 'roles';
+    protected $table = 'roles';
 
-	protected $fillable = [
-		'code',
-		'title',
-	];
+    protected $fillable = [
+        'code',
+        'title',
+    ];
 
-	public $timestamps = false;
+    public $timestamps = false;
 
-	public function admins(){
-		return $this->belongsToMany(User::class, 'admin_roles', 'role_id', 'admin_id');
-	}
+    public function admins()
+    {
+        return $this->belongsToMany(User::class, 'admin_roles', 'role_id', 'admin_id');
+    }
 }

@@ -12,13 +12,16 @@ namespace Amari\Translatable\Facades;
 use Amari\Translatable\Services\Locale;
 use Illuminate\Support\Facades\Facade;
 
-class SiteLocale extends Facade {
+class SiteLocale extends Facade
+{
 
-	public static function getFacadeRoot() {
-		return Locale::instance();
-	}
+    public static function getFacadeRoot()
+    {
+        return Locale::instance();
+    }
 
-	protected static function getFacadeAccessor() {
-		return 'locale';
-	}
+    protected static function getFacadeAccessor()
+    {
+        return 'locale';
+    }
 }
