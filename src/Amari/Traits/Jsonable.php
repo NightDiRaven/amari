@@ -158,11 +158,11 @@ trait Jsonable {
 	/**
 	 * Initialize json field cast too other objects
 	 *
-	 * @param $field
+	 * @param string $field
 	 *
 	 * @return JsonCastContract
 	 */
-	public function jsonCast($field) {
+	public function jsonCast(string $field): JsonCastContract {
 
 		return new class($this->getAttribute($field), $this->getJsonCasts()) implements JsonCastContract {
 			public $attribute;
@@ -193,7 +193,7 @@ trait Jsonable {
 			}
 
 			public function toArray(): array {
-				return is_array($this->attribute) ? $this->attribute:[$this->attribute];
+				return is_array($this->attribute) ? $this->attribute : [$this->attribute];
 			}
 
 			public function castArray(array $fieldFormat = []): array {
