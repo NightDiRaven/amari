@@ -6,7 +6,6 @@ use Amari\Contracts\JsonCastContract;
 use Amari\Files\File;
 use Amari\Files\Image;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 /**
  * Class Jsonable
@@ -143,7 +142,12 @@ trait Jsonable {
 		return $this->jsonArray;
 	}
 
-	protected function getJsonCasts() {
+	/**
+	 * Get json casts array
+	 *
+	 * @return array
+	 */
+	protected function getJsonCasts(): array {
 		if (property_exists(static::class, 'jsonCasts')) return static::$jsonCasts;
 		else return [
 			'image' => function ($value) { return new Image($value); },
@@ -188,7 +192,7 @@ trait Jsonable {
 				return $this;
 			}
 
-			public function toArray() {
+			public function toArray(): array {
 				return $this->attribute;
 			}
 
@@ -196,7 +200,7 @@ trait Jsonable {
 				return $this->cast($fieldFormat)->toArray();
 			}
 
-			public function toCollection() {
+			public function toCollection(): Collection {
 				return collect($this->attribute);
 			}
 

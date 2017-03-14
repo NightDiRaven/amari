@@ -25,7 +25,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
     // Optional, default 'title'
     protected static $slugSource = 'name';
     
-    // Optional, default 'route'
+    // Optional, default 'slug'
     protected static $slugField = 'route';
     
     public static function boot()
