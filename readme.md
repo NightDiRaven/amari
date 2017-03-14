@@ -1,11 +1,17 @@
 # Amari
-Some useful things for laravel ^5.* and php ^7.0 with monkey code  _insine_ inside
+
+Some useful things for laravel ^5.* and php ^7.0 with monkey code  ~~insine~~ inside
 
 Be free to use it anywhere under MIT ...
 
-Available traits
 
-## Sluggable
+> Package refactor after 0.0.3 version after 14.03.2017 use this version for compatibility
+
+
+
+Available traits:
+
+#### Sluggable
 
 Simply covert source field to slug field using Illuminate\Support\Str::slug function.
 
@@ -38,7 +44,7 @@ This code generate route attribute from name if route do not provided, if some e
 
 
 
-## Jsonable
+#### Jsonable
 
 Another monkey in your lawn. You now have full access to json field as usual attributes of your model. (only 1-2 level of them)
 
