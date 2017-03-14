@@ -20,7 +20,7 @@ trait Translatable {
 	}
 
 	public function scopeTranslated($q, $lang = null) {
-		return ((($code = Locale::instance()->id($lang)) and !Locale::instance()>isMain($code))) ? $q->with('langs')->whereHas('langs', function ($q) use ($code) {
+		return ((($code = Locale::instance()->id($lang)) and !Locale::instance()->isMain($code))) ? $q->with('langs')->whereHas('langs', function ($q) use ($code) {
 			$q->where('code', '=', $code);
 		}) : $q;
 	}
