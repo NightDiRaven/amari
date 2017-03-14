@@ -2,6 +2,7 @@
 
 namespace Amari\Translatable\Contracts;
 
-interface TranslatableContract {
-	public function saveLangs();
+interface TranslatableContract
+{
+    public function saveLangs();
 }

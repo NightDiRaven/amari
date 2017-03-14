@@ -2,6 +2,7 @@
 
 namespace Amari\Translatable\Contracts;
 
-interface JsonableContract {
+interface JsonableContract
+{
 
 }

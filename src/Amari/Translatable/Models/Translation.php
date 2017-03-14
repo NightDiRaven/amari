@@ -4,7 +4,8 @@ namespace App\Translatable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Translation extends Model {
+class Translation extends Model
+{
 
-	protected $fillable = ['id', 'code', 'filename', 'url'];
+    protected $fillable = ['id', 'code', 'filename', 'url'];
 }
