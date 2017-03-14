@@ -193,10 +193,10 @@ trait Jsonable {
 			}
 
 			public function toArray(): array {
-				return $this->attribute;
+				return is_array($this->attribute) ? $this->attribute:[$this->attribute];
 			}
 
-			public function castArray(array $fieldFormat = []){
+			public function castArray(array $fieldFormat = []): array {
 				return $this->cast($fieldFormat)->toArray();
 			}
 
