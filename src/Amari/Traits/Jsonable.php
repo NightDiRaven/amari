@@ -55,6 +55,13 @@ trait Jsonable {
 		$this->jsonConfig = $configuration;
 	}
 
+	/**
+	 * Very dangerous command, you can flush your json data structure
+	 *
+	 * @param $class
+	 *
+	 * @return $this
+	 */
 	public function morphJsonTo($class){
 		if($class instanceof Jsonable){
 			property_exists($class, 'jsonConfig')? $class->jsonConfig : $class::$json;
