@@ -37,12 +37,29 @@ trait Jsonable {
 		return false;
 	}
 
+	/**
+	 * Get configuration of json model
+	 *
+	 * @return array
+	 */
 	public function getJson(){
 		return property_exists($this, 'jsonConfig')? $this->jsonConfig : static::$json;
 	}
 
+	/**
+	 * Set configuration of jsonModel
+	 *
+	 * @param array $configuration
+	 */
 	public function setJson(array $configuration){
-		$this->json = $configuration;
+		$this->jsonConfig = $configuration;
+	}
+
+	public function morphJsonTo($class){
+		if($class instanceof Jsonable){
+			property_exists($class, 'jsonConfig')? $class->jsonConfig : $class::$json;
+		}
+		return $this;
 	}
 
 	/**
