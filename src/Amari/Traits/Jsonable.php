@@ -16,6 +16,9 @@ use Illuminate\Support\Collection;
  */
 trait Jsonable {
 
+	/** @var array Json column declarations */
+	protected static $json = [];
+
 	/** @var array All fetched columns here (lazy load json_decode) */
 	protected $jsonArray = [];
 
@@ -27,11 +30,19 @@ trait Jsonable {
 	 * @return bool|string
 	 */
 	protected function getColumn($key) {
-		foreach (static::$json as $column => $jsonItems) if (in_array($key, $jsonItems)) {
+		foreach ($this->getJson() as $column => $jsonItems) if (in_array($key, $jsonItems)) {
 			return $column;
 		}
 
 		return false;
+	}
+
+	public function getJson(){
+		return property_exists($this, 'json')? $this->json : static::$json;
+	}
+
+	public function setJson(array $configuration){
+		$this->json = $configuration;
 	}
 
 	/**
@@ -135,7 +146,7 @@ trait Jsonable {
 	 * @return array
 	 */
 	function loadColumns() {
-		foreach (static::$json as $column => $item) {
+		foreach ($this->getJson() as $column => $item) {
 			$this->loadColumn($column);
 		}
 
