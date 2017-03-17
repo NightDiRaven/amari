@@ -22,6 +22,9 @@ trait Jsonable {
 	/** @var array All fetched columns here (lazy load json_decode) */
 	protected $jsonArray = [];
 
+	/** @var array|bool Custom model json configuration */
+	public $jsonConfig = false;
+
 	/**
 	 * Get save db field for store $key attribute
 	 *
@@ -63,9 +66,9 @@ trait Jsonable {
 	 * @return $this
 	 */
 	public function morphJsonTo($class){
-		if($class instanceof Jsonable){
-			(property_exists($class, 'jsonConfig') and is_object($class))? $class->jsonConfig : $class::$json;
-		}
+		if($class instanceof Jsonable)
+			(is_object($class) and $class->jsonConfig)? $class->jsonConfig : $class::$json;
+
 		return $this;
 	}
 
