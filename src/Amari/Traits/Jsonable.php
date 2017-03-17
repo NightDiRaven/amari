@@ -5,6 +5,7 @@ namespace Amari\Traits;
 use Amari\Contracts\JsonCastContract;
 use Amari\Files\File;
 use Amari\Files\Image;
+use Amari\Translatable\Contracts\JsonableContract;
 use Illuminate\Support\Collection;
 
 /**
@@ -66,8 +67,22 @@ trait Jsonable {
 	 * @return $this
 	 */
 	public function morphJsonTo($class){
-		if($class instanceof Jsonable)
-			$class->jsonConfig = (is_object($class) and $class->jsonConfig)? $class->jsonConfig : $class::$json;
+		if(in_array(JsonableContract::class, class_implements($class)))
+			$this->jsonConfig = (is_object($class) and $class->jsonConfig)? $class->jsonConfig : $class::$json;
+
+		return $this;
+	}
+
+	/**
+	 * Change json format by merging config with another jsonable
+	 *
+	 * @param $class
+	 *
+	 * @return $this
+	 */
+	public function mergeJsonWith($class){
+		if(in_array(JsonableContract::class, class_implements($class)))
+			$this->jsonConfig = array_merge_recursive($this->getJson(),(is_object($class) and $class->jsonConfig)? $class->jsonConfig : $class::$json);
 
 		return $this;
 	}
