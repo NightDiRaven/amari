@@ -46,17 +46,21 @@ trait Jsonable {
 	 *
 	 * @return array
 	 */
-	public function getJson(){
+	public function getJson() {
 		return $this->jsonConfig ? $this->jsonConfig : static::$json;
 	}
 
 	/**
 	 * Set configuration of jsonModel
 	 *
-	 * @param array $configuration
+	 * @param $class
 	 */
-	public function setJson(array $configuration){
-		$this->jsonConfig = $configuration;
+	public static function setJson($class) {
+		if (is_array($class))
+			static::$json = $class;
+		elseif (in_array(JsonableContract::class, class_implements($class)))
+			static::$json = (is_object($class) and $class->jsonConfig) ? $class->jsonConfig : $class::$json;
+
 	}
 
 	/**
@@ -66,9 +70,9 @@ trait Jsonable {
 	 *
 	 * @return $this
 	 */
-	public function morphJsonTo($class){
-		if(in_array(JsonableContract::class, class_implements($class)))
-			$this->jsonConfig = (is_object($class) and $class->jsonConfig)? $class->jsonConfig : $class::$json;
+	public function morphJsonTo($class) {
+		if (in_array(JsonableContract::class, class_implements($class)))
+			$this->jsonConfig = (is_object($class) and $class->jsonConfig) ? $class->jsonConfig : $class::$json;
 
 		return $this;
 	}
@@ -80,9 +84,10 @@ trait Jsonable {
 	 *
 	 * @return $this
 	 */
-	public function mergeJsonWith($class){
-		if(in_array(JsonableContract::class, class_implements($class)))
-			$this->jsonConfig = array_merge_recursive($this->getJson(),(is_object($class) and $class->jsonConfig)? $class->jsonConfig : $class::$json);
+	public function mergeJsonWith($class) {
+		if (in_array(JsonableContract::class, class_implements($class)))
+			$this->jsonConfig = array_merge_recursive($this->getJson(),
+				(is_object($class) and $class->jsonConfig) ? $class->jsonConfig : $class::$json);
 
 		return $this;
 	}
