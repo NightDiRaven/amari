@@ -46,7 +46,7 @@ trait Jsonable {
 	 * @return array
 	 */
 	public function getJson(){
-		return property_exists($this, 'jsonConfig')? $this->jsonConfig : static::$json;
+		return $this->jsonConfig ? $this->jsonConfig : static::$json;
 	}
 
 	/**
