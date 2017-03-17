@@ -64,7 +64,7 @@ trait Jsonable {
 	 */
 	public function morphJsonTo($class){
 		if($class instanceof Jsonable){
-			property_exists($class, 'jsonConfig')? $class->jsonConfig : $class::$json;
+			(property_exists($class, 'jsonConfig') and is_object($class))? $class->jsonConfig : $class::$json;
 		}
 		return $this;
 	}
