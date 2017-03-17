@@ -50,12 +50,20 @@ trait Jsonable {
 		return $this->jsonConfig ? $this->jsonConfig : static::$json;
 	}
 
+
+	/**
+	 * @param array|bool $jsonConfig
+	 */
+	public function setJson($jsonConfig) {
+		$this->jsonConfig = $jsonConfig;
+	}
+
 	/**
 	 * Set configuration of jsonModel
 	 *
 	 * @param $class
 	 */
-	public static function setJson($class) {
+	public static function changeJson($class) {
 		if (is_array($class))
 			static::$json = $class;
 		elseif (in_array(JsonableContract::class, class_implements($class)))
