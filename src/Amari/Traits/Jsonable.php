@@ -222,7 +222,7 @@ trait Jsonable {
 	}
 
 	/**
-	 * Initialize json field cast too other objects
+	 * Initialize json field cast to other objects
 	 *
 	 * @param string $field
 	 *
