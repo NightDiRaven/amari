@@ -1,4 +1,5 @@
 <?php
+
 namespace Amari\Files;
 
 use Illuminate\Support\Facades\File as IlluminateFile;
@@ -6,18 +7,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class File
 {
-
     const TEMPLATE_INFO = '.:type, :size';
 
     /**
      * @var string
      */
-
     protected $filename;
 
-    function __construct(string $filename)
+    public function __construct(string $filename)
     {
-        $this->filename = str_replace(static::getUploadPath() . '/', '', $filename);
+        $this->filename = str_replace(static::getUploadPath().'/', '', $filename);
     }
 
     public function thumbnail(string $template = 'original'): string
@@ -42,12 +41,12 @@ class File
 
     public function path(): string
     {
-        return static::getUploadPath() . '/' . $this->filename;
+        return static::getUploadPath().'/'.$this->filename;
     }
 
     public function tmpPath(): string
     {
-        return static::getTempPath() . '/' . $this->filename;
+        return static::getTempPath().'/'.$this->filename;
     }
 
     public function realPath(): string
@@ -72,16 +71,20 @@ class File
 
     public function delete(): bool
     {
-        if ($this->exists()) return IlluminateFile::delete($this->path());
-        elseif ($this->tmpExists()) return IlluminateFile::delete($this->tmpPath());
-        else return false;
+        if ($this->exists()) {
+            return IlluminateFile::delete($this->path());
+        } elseif ($this->tmpExists()) {
+            return IlluminateFile::delete($this->tmpPath());
+        } else {
+            return false;
+        }
     }
 
     public function info(): string
     {
         return ($filename = $this->resolvePath()) ? strtr(static::TEMPLATE_INFO, [
             ':type' => IlluminateFile::extension($filename),
-            ':size' => round(IlluminateFile::size($filename) / 1000, 2) . ' Kb'
+            ':size' => round(IlluminateFile::size($filename) / 1000, 2).' Kb',
         ]) : '';
     }
 
@@ -90,11 +93,13 @@ class File
      */
     public function resolvePath()
     {
-        if ($this->exists())
+        if ($this->exists()) {
             return $this->realPath();
-        elseif ($this->tmpExists())
+        } elseif ($this->tmpExists()) {
             return $this->tmpRealPath();
-        else return false;
+        } else {
+            return false;
+        }
     }
 
     public function mv(string $destination): bool
@@ -109,15 +114,19 @@ class File
 
     public static function upload(UploadedFile $file, bool $saveName = false, bool $overwrite = false)
     {
-        $path = static::getUploadPath() . '/';
+        $path = static::getUploadPath().'/';
 
         if ($saveName) {
             $filename = $file->getClientOriginalName();
             if (!$overwrite) {
                 $count = 0;
-                while (file_exists($path . $filename)) $filename = '(' . ++$count . ') ' . $file->getClientOriginalName();
+                while (file_exists($path.$filename)) {
+                    $filename = '('.++$count.') '.$file->getClientOriginalName();
+                }
             }
-        } else $filename = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
+        } else {
+            $filename = md5(time().$file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
+        }
 
         $file->move(static::getTempPath(), $filename);
 

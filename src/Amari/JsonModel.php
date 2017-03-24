@@ -2,7 +2,6 @@
 
 namespace Amari;
 
-
 use Amari\Jsonable\Traits\Jsonable;
 use Amari\Translatable\Contracts\JsonableContract;
 use Amari\Translatable\Contracts\TranslatableContract;
@@ -19,7 +18,7 @@ abstract class JsonModel extends Model implements JsonableContract, Translatable
 
     public function getAttribute($key)
     {
-        return $this->translateGetAttribute($key) ??  $this->jsonGetAttribute($key);
+        return $this->translateGetAttribute($key) ?? $this->jsonGetAttribute($key);
     }
 
     public function setAttribute($key, $value)
