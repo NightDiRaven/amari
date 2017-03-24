@@ -1,5 +1,7 @@
 # Amari
 
+[![StyleCI](https://styleci.io/repos/51994616/shield?branch=master)](https://styleci.io/repos/51994616)
+
 Some useful things for laravel ^5.* and php ^7.0 with monkey code  ~~insine~~ inside
 
 Be free to use it anywhere under MIT ...
