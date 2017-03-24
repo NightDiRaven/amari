@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model
 {
-
     protected $table = 'langs';
     public $timestamps = false;
     public $fillable = ['title', 'code', 'main'];
@@ -15,6 +14,7 @@ class Language extends Model
     {
         $instance = with(new $class());
         $table = $instance->getTable();
+
         return parent::belongsToMany($class, SchemaLanguage::formatName($table), 'lang_id', SchemaLanguage::formatForeign($table))
             ->withPivot($table->translatable());
     }
@@ -23,8 +23,8 @@ class Language extends Model
     {
         return self::firstOrCreate([
             'title' => config('langs.origin_locale_name') ?? config('app.locale'),
-            'code' => config('app.locale'),
-            'main' => true,
+            'code'  => config('app.locale'),
+            'main'  => true,
         ]);
     }
 

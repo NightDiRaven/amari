@@ -1,9 +1,9 @@
 <?php
+
 namespace Amari\Files;
 
 class Image extends File
 {
-
     const TEMPLATE_INFO = '.:type, :widthx:height';
 
     /**
@@ -15,11 +15,13 @@ class Image extends File
             list($width, $height) = getimagesize($filename);
 
             return strtr(static::TEMPLATE_INFO, [
-                ':type' => \File::extension($filename),
-                ':width' => $width,
+                ':type'   => \File::extension($filename),
+                ':width'  => $width,
                 ':height' => $height,
             ]);
-        } else return '';
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -29,12 +31,14 @@ class Image extends File
      */
     public function thumbnail(string $template = 'original'): string
     {
-        if ($this->exists() or $this->tmpExists())
+        if ($this->exists() or $this->tmpExists()) {
             return route('imagecache', [
                 $template,
                 $this->getFilename(),
             ]);
-        else return '';
+        } else {
+            return '';
+        }
     }
 
     protected static function getUploadPath(): string

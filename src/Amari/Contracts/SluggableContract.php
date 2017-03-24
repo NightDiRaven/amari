@@ -2,7 +2,7 @@
 
 namespace Amari\Contracts;
 
-interface SluggableContract {
-
+interface SluggableContract
+{
     public function generateSlug();
 }

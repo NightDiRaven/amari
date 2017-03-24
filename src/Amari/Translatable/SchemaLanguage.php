@@ -1,4 +1,5 @@
 <?php
+
 namespace Amari\Translatable;
 
 use Illuminate\Database\Schema\Blueprint;
@@ -6,38 +7,39 @@ use Schema;
 
 class SchemaLanguage
 {
-
     /**
-     * Function formatting translation table name from original table name
+     * Function formatting translation table name from original table name.
      *
      * @param string $name
+     *
      * @return string
      */
     public static function formatName(string $name): string
     {
-        return config('langs.db.prefix') . str_singular($name) . config('langs.db.postfix', '_translations');
+        return config('langs.db.prefix').str_singular($name).config('langs.db.postfix', '_translations');
     }
 
     /**
-     * Default format for foreign keys
+     * Default format for foreign keys.
      *
      * @param string $name
+     *
      * @return string
      */
     public static function formatForeign(string $name): string
     {
-        return str_singular($name) . '_id';
+        return str_singular($name).'_id';
     }
 
     /**
-     * Create table and translation table
+     * Create table and translation table.
      *
-     * @param string $name
+     * @param string   $name
      * @param callable $not_translatable
      * @param callable $translatable
-     * @param null $only_translatable
-     * @param null $foreign
-     * @param string $refs
+     * @param null     $only_translatable
+     * @param null     $foreign
+     * @param string   $refs
      */
     public static function create(string $name, callable $not_translatable, callable $translatable, $only_translatable = null, $foreign = null, $refs = 'id')
     {
@@ -46,14 +48,14 @@ class SchemaLanguage
     }
 
     /**
-     * Modify table and translation table
+     * Modify table and translation table.
      *
-     * @param string $name
+     * @param string   $name
      * @param callable $not_translatable
      * @param callable $translatable
      * @param callable $only_translatable
-     * @param null $foreign
-     * @param string $refs
+     * @param null     $foreign
+     * @param string   $refs
      */
     public static function table(string $name, callable $not_translatable, callable $translatable, callable $only_translatable, $foreign = null, $refs = 'id')
     {
@@ -62,7 +64,7 @@ class SchemaLanguage
     }
 
     /**
-     * Drop table and translation table
+     * Drop table and translation table.
      *
      * @param $name
      */
@@ -73,13 +75,14 @@ class SchemaLanguage
     }
 
     /**
-     * Create Langs Table
+     * Create Langs Table.
      *
      * @return Blueprint
      */
     public static function createLangsTable()
     {
         $tname = config('langs.db.table_name');
+
         return Schema::hasTable($tname) ?: Schema::create($tname, function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 120);
@@ -89,18 +92,19 @@ class SchemaLanguage
     }
 
     /**
-     * Drops Langs Table
+     * Drops Langs Table.
      *
      * @return Blueprint
      */
     public static function dropLangsTable()
     {
         $tname = config('langs.db.table_name');
+
         return !Schema::hasTable($tname) ?: Schema::drop($tname);
     }
 
     /**
-     * Call default schema builder with two serial callbacks
+     * Call default schema builder with two serial callbacks.
      *
      * @param $method
      * @param $name
@@ -119,12 +123,13 @@ class SchemaLanguage
     }
 
     /**
-     * Return callback for instantiating table with langs strings
+     * Return callback for instantiating table with langs strings.
      *
      * @param string $name
      * @param $only_translatable
      * @param $foreign
      * @param string $refs
+     *
      * @return callable
      */
     protected static function getCallback(string $name, $only_translatable, $foreign, string $refs): callable
@@ -132,13 +137,16 @@ class SchemaLanguage
         $tname = $foreign ?? self::formatForeign($name);
         $langs = config('langs.db.table_name');
         $tlangs = self::formatForeign($langs);
+
         return function (Blueprint $table) use ($only_translatable, $name, $tname, $langs, $tlangs, $refs) {
             $table->integer($tname)->unsigned();
             $table->foreign($tname)->references($refs)->on($name)->onDelete('cascade');
             $table->integer($tlangs)->unsigned();
             $table->foreign($tlangs)->references('id')->on($langs)->onDelete('cascade');
             $table->unique([$tname, $tlangs]);
-            if (is_callable($only_translatable)) $only_translatable($table);
+            if (is_callable($only_translatable)) {
+                $only_translatable($table);
+            }
         };
     }
 }

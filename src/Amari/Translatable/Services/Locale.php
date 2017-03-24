@@ -7,7 +7,6 @@ use Schema;
 
 class Locale
 {
-
     protected static $instance;
     protected static $prefix;
     protected $app;
@@ -29,8 +28,8 @@ class Locale
         }
         $this->langs = $this->full->pluck('id', 'code')->toArray();
         $this->main = $this->full->filter(function ($i) {
-                return $i->main;
-            })->first() ?? $this->full->first();
+            return $i->main;
+        })->first() ?? $this->full->first();
 
         $this->set($this->main->code, true);
     }
@@ -73,7 +72,9 @@ class Locale
     public function otherLangs()
     {
         $langs = $this->langs;
-        if (isset($langs[$this->main->code])) unset($langs[$this->locale]);
+        if (isset($langs[$this->main->code])) {
+            unset($langs[$this->locale]);
+        }
 
         return $langs;
     }
@@ -90,14 +91,16 @@ class Locale
 
     public function prefix()
     {
-        if (!self::$prefix) if (array_key_exists($lang = request()->segment(1), $this->otherLangs())) {
-            $this->set($lang);
-            self::$prefix = $lang;
-        } elseif ($lang == $this->main->code) {
-            \Route::get($lang, function () {
-                return redirect('/');
-            });
-            self::$prefix = '';
+        if (!self::$prefix) {
+            if (array_key_exists($lang = request()->segment(1), $this->otherLangs())) {
+                $this->set($lang);
+                self::$prefix = $lang;
+            } elseif ($lang == $this->main->code) {
+                \Route::get($lang, function () {
+                    return redirect('/');
+                });
+                self::$prefix = '';
+            }
         }
 
         return self::$prefix;
@@ -110,18 +113,23 @@ class Locale
             return $v != '' and $v != 'http:' and $v != $_SERVER['SERVER_NAME'] and $v != $_SERVER['HTTP_HOST'];
         }));
         if (isset($url[0]) and $this->exists($url[0])) {
-            if (!$this->isMain($code))
+            if (!$this->isMain($code)) {
                 $url[0] = $code;
-            else unset($url[0]);
-        } else if (!$this->isMain($code))
+            } else {
+                unset($url[0]);
+            }
+        } elseif (!$this->isMain($code)) {
             array_unshift($url, $code);
+        }
 
         return redirect(implode('/', $url));
     }
 
     public static function instance(): Locale
     {
-        if (!(self::$instance instanceof self)) self::$instance = new self();
+        if (!(self::$instance instanceof self)) {
+            self::$instance = new self();
+        }
 
         return self::$instance;
     }

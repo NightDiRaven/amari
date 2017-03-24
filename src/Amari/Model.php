@@ -9,26 +9,29 @@ use Amari\Translatable\Contracts\TranslatableContract;
 use Illuminate\Support\Collection;
 
 /**
- * Class Model
+ * Class Model.
  *
  * @method \Illuminate\Database\Query\Builder whereIn($key, array $hash)
  * @method \Illuminate\Database\Eloquent\Collection get()
- * @package Amari
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {
-
     public static function boot()
     {
         parent::boot();
 
         static::saving(function (Model $item) {
-            if (!$item->isDirty() and ($item instanceof TranslatableContract)) $item->saveLangs(); elseif ($item instanceof SluggableContract) $item->generateSlug();
+            if (!$item->isDirty() and ($item instanceof TranslatableContract)) {
+                $item->saveLangs();
+            } elseif ($item instanceof SluggableContract) {
+                $item->generateSlug();
+            }
         });
-        if (static::class instanceof TranslatableContract)
+        if (static::class instanceof TranslatableContract) {
             static::saved(function (Model $item) {
                 $item->saveLangs();
             });
+        }
     }
 
     public function getImage($name)
@@ -58,9 +61,10 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
                 $exists = true;
             }
         }
+
         return str_replace(['_b', '_c'], [
             '_b' => $exists ? $image->thumbnail($thumb) : '/img/no_foto.svg',
-            '_c' => ($clases or !$exists) ? $clases . ($exists ? '' : ' ' . $nophoto) : ''
+            '_c' => ($clases or !$exists) ? $clases.($exists ? '' : ' '.$nophoto) : '',
         ], $exists ? 'style="background-image: url(_b)" class="_c"' : 'class="_c"');
     }
 
@@ -70,9 +74,14 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
         if (is_array($images)) {
             foreach ($images as &$image) {
                 $image = new Image($image['file']);
-                if (!$image->exists()) unset($image);
+                if (!$image->exists()) {
+                    unset($image);
+                }
             }
-        } else $images = [];
+        } else {
+            $images = [];
+        }
+
         return $images;
     }
 }
