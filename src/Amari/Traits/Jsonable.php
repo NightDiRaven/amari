@@ -256,7 +256,7 @@ trait Jsonable
 
             public function __construct($attribute, $casts)
             {
-                $this->attribute = is_array($attribute) ? $attribute : json_decode($attribute.true);
+                $this->attribute = is_array($attribute) ? $attribute : json_decode($attribute, true);
                 $this->casts = $casts;
             }
 
