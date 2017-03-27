@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
  * Class Sluggable.
  *
  * @method $this|null bySlug(string $slug)
- * @method $this|null slugOrFail(string $slug)
  * @method $this slugOrCreate(string $slug, array | null $params)
  */
 trait Sluggable
@@ -33,9 +32,9 @@ trait Sluggable
      *
      * @return $this|null
      */
-    public static function scopeSlugOrFail($q, string $slug)
+    public static function slugOrFail(string $slug)
     {
-        return $q->where(static::getSlugField(), $slug)->first() ?? abort(404);
+        return static::where(static::getSlugField(), $slug)->first() ?? abort(404);
     }
 
     /**
