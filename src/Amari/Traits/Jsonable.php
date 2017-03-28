@@ -265,7 +265,7 @@ trait Jsonable
                 if (is_array($values)) {
                     foreach ($values as $key => &$value) {
                         if (isset($casts[$key])) {
-                            $value = $casts[$key]($value);
+                            $value = $casts[$key]($value, $values);
                         } elseif (is_array($value)) {
                             $this->castRecursive($value, $casts);
                         }
