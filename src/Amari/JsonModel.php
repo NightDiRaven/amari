@@ -2,8 +2,8 @@
 
 namespace Amari;
 
-use Amari\Jsonable\Traits\Jsonable;
-use Amari\Translatable\Contracts\JsonableContract;
+use Amari\Contracts\JsonableContract;
+use Amari\Traits\Jsonable;
 use Amari\Translatable\Contracts\TranslatableContract;
 use Amari\Translatable\Traits\Translatable;
 

@@ -2,7 +2,7 @@
 
 namespace Amari\Translatable\Traits;
 
-use Amari\Translatable\Contracts\JsonableContract;
+use Amari\Contracts\JsonableContract;
 use Amari\Translatable\Models\Language;
 use Amari\Translatable\SchemaLanguage;
 use Amari\Translatable\Services\Locale;

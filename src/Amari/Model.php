@@ -2,9 +2,9 @@
 
 namespace Amari;
 
+use Amari\Contracts\SluggableContract;
 use Amari\Files\File;
 use Amari\Files\Image;
-use Amari\Sluggable\Contracts\SluggableContract;
 use Amari\Translatable\Contracts\TranslatableContract;
 use Illuminate\Support\Collection;
 
