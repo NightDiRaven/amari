@@ -168,11 +168,6 @@ trait Translatable
         return $this->translatable;
     }
 
-    public function getJson(): array
-    {
-        return isset(static::$json) ? static::$json : [];
-    }
-
     /**
      * Get all translation of model and fill for save.
      *
