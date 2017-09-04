@@ -27,7 +27,7 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
                 $item->generateSlug();
             }
         });
-        if (static::class instanceof TranslatableContract) {
+        if ((in_array(TranslatableContract::class, class_implements(static::class)))) {
             static::saved(function (Model $item) {
                 $item->saveLangs();
             });
