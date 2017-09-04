@@ -6,7 +6,6 @@ use Amari\Contracts\JsonableContract;
 use Amari\Translatable\Models\Language;
 use Amari\Translatable\SchemaLanguage;
 use Amari\Translatable\Services\Locale;
-use App\Models\Settings;
 use Illuminate\Database\Eloquent\Model;
 
 trait Translatable
@@ -76,7 +75,6 @@ trait Translatable
     public function trans($lang = null): array
     {
         if ($id = Locale::instance()->id($lang) and !Locale::instance()->isMain($id)) {
-
             $lang = $this->langs->filter(function ($i) use ($id) {
                 return $i->id == $id;
             })->first();
