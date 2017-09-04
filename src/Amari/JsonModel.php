@@ -20,20 +20,21 @@ abstract class JsonModel extends Model implements JsonableContract, Translatable
     }
 
     protected function getJsonCasts(): array
-	{
-		return [
-			'image' => function ($value) {
-				return new Image($value);
-			},
-			'file'  => function ($value) {
-				return new File($value);
-			},
-			'lang'  => function ($value,$values,$key) {
-				$fieldName = $key.'_'.Locale::instance()->prefix();
-				return array_key_exists($fieldName ,$values) ? $values[$fieldName] : $value ;
-			},
-		];
-	}
+    {
+        return [
+            'image' => function ($value) {
+                return new Image($value);
+            },
+            'file'  => function ($value) {
+                return new File($value);
+            },
+            'lang'  => function ($value, $values, $key) {
+                $fieldName = $key.'_'.Locale::instance()->prefix();
+
+                return array_key_exists($fieldName, $values) ? $values[$fieldName] : $value;
+            },
+        ];
+    }
 
     public function getAttribute($key)
     {

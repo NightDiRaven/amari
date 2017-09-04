@@ -277,11 +277,11 @@ trait Jsonable
             {
                 $casts = $this->casts;
                 foreach ($fieldFormat as $field => $cast) {
-	                if (is_callable($cast)) {
-		                $casts[$field] = $cast;
-	                } elseif (array_key_exists($cast, $casts)) {
-		                $casts[$field] = $casts[$cast];
-	                }
+                    if (is_callable($cast)) {
+                        $casts[$field] = $cast;
+                    } elseif (array_key_exists($cast, $casts)) {
+                        $casts[$field] = $casts[$cast];
+                    }
                 }
                 $this->castRecursive($this->attribute, $casts);
 
