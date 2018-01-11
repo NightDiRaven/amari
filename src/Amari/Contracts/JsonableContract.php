@@ -12,4 +12,6 @@ interface JsonableContract
      * @return JsonCastContract
      */
     public function jsonCast(string $field): JsonCastContract;
+    
+    public function getJsonStructure(): array;
 }

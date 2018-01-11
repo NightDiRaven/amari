@@ -3,9 +3,9 @@
 namespace Amari\Traits;
 
 use Amari\Contracts\JsonCastContract;
+use Amari\Contracts\JsonableContract;
 use Amari\Files\File;
 use Amari\Files\Image;
-use Amari\Translatable\Contracts\JsonableContract;
 use Illuminate\Support\Collection;
 
 /**
@@ -19,7 +19,7 @@ trait Jsonable
     protected static $json = [];
 
     /** @var array All fetched columns here (lazy load json_decode) */
-    protected $jsonArray = [];
+    protected $_jsonArray = [];
 
     /** @var array|bool Custom model json configuration */
     public $jsonConfig = false;
@@ -27,14 +27,14 @@ trait Jsonable
     /**
      * Get save db field for store $key attribute.
      *
-     * @param $key
+     * @param string $key
      *
      * @return bool|string
      */
-    protected function getColumn($key)
+    protected function getColumn(string $key)
     {
-        foreach ($this->getJson() as $column => $jsonItems) {
-            if (in_array($key, $jsonItems)) {
+        foreach ($this->getJsonStructure() as $column => $jsonItems) {
+            if (in_array($key, $jsonItems, true)) {
                 return $column;
             }
         }
@@ -47,15 +47,15 @@ trait Jsonable
      *
      * @return array
      */
-    public function getJson()
+    public function getJsonStructure(): array 
     {
-        return $this->jsonConfig ? $this->jsonConfig : static::$json;
+        return $this->jsonConfig ?: static::$json;
     }
 
     /**
      * @param array|bool $jsonConfig
      */
-    public function setJson($jsonConfig)
+    public function setJson($jsonConfig): void
     {
         $this->jsonConfig = $jsonConfig;
     }
@@ -63,15 +63,11 @@ trait Jsonable
     /**
      * Set configuration of jsonModel.
      *
-     * @param $class
+     * @param array $array
      */
-    public static function changeJson($class)
+    public static function setJsonStructureFromArray(array $array): void
     {
-        if (is_array($class)) {
-            static::$json = $class;
-        } elseif (in_array(JsonableContract::class, class_implements($class))) {
-            static::$json = (is_object($class) and $class->jsonConfig) ? $class->jsonConfig : $class::$json;
-        }
+        static::$json = $array;
     }
 
     /**
@@ -81,27 +77,10 @@ trait Jsonable
      *
      * @return $this
      */
-    public function morphJsonTo($class)
+    public function morphJsonTo(JsonableContract $class): self
     {
-        if (in_array(JsonableContract::class, class_implements($class))) {
+        if (in_array(JsonableContract::class, class_implements($class), true)) {
             $this->jsonConfig = (is_object($class) and $class->jsonConfig) ? $class->jsonConfig : $class::$json;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Change json format by merging config with another jsonable.
-     *
-     * @param $class
-     *
-     * @return $this
-     */
-    public function mergeJsonWith($class)
-    {
-        if (in_array(JsonableContract::class, class_implements($class))) {
-            $this->jsonConfig = array_merge_recursive($this->getJson(),
-                (is_object($class) and $class->jsonConfig) ? $class->jsonConfig : $class::$json);
         }
 
         return $this;
@@ -161,10 +140,12 @@ trait Jsonable
      */
     protected function loadColumn($column, $force = false)
     {
-        return array_key_exists($column, $this->jsonArray) && !$force
-            ? $this->jsonArray[$column]
-            : (($res = isset($this->attributes[$column]) ? json_decode($this->attributes[$column], true) : false)
-                ? $this->jsonArray[$column] = $res : []);
+        if (array_key_exists($column, $this->jsonArray) && !$force) {
+            return $this->jsonArray[$column];
+        }
+        $res = isset($this->attributes[$column]) ? json_decode($this->attributes[$column], true) : false;
+
+        return $res ? $this->jsonArray[$column] = $res : [];
     }
 
     /**
@@ -173,7 +154,7 @@ trait Jsonable
      * @param $column
      * @param $key
      *
-     * @return null
+     * @return null|mixed
      */
     protected function getJsonAttributeBy($column, $key)
     {
@@ -187,7 +168,7 @@ trait Jsonable
      *
      * @return $this
      */
-    public function setJsonAttributes(array $params)
+    public function setJsonAttributes(array $params): self
     {
         $prepare = [];
 
@@ -212,9 +193,9 @@ trait Jsonable
      *
      * @return array
      */
-    public function loadColumns()
+    public function loadColumns(): array
     {
-        foreach ($this->getJson() as $column => $item) {
+        foreach ($this->getJsonStructure() as $column => $item) {
             $this->loadColumn($column);
         }
 
@@ -230,16 +211,15 @@ trait Jsonable
     {
         if (property_exists(static::class, 'jsonCasts')) {
             return static::$jsonCasts;
-        } else {
-            return [
-            'image' => function ($value) {
-                return new Image($value);
-            },
-            'file'  => function ($value) {
-                return new File($value);
-            },
-        ];
         }
+        return [
+        'image' => function ($value) {
+            return new Image($value);
+        },
+        'file'  => function ($value) {
+            return new File($value);
+        },
+    ];
     }
 
     /**
@@ -260,7 +240,7 @@ trait Jsonable
                 $this->casts = $casts;
             }
 
-            protected function castRecursive(&$values, &$casts)
+            protected function castRecursive(&$values, &$casts): void
             {
                 if (is_array($values)) {
                     foreach ($values as $key => &$value) {
@@ -301,13 +281,6 @@ trait Jsonable
             public function toCollection(): Collection
             {
                 return collect($this->attribute);
-            }
-
-            public function __get($name)
-            {
-                if (isset($this->attributes[$name])) {
-                    return $this->attributes[$name];
-                }
             }
         };
     }
