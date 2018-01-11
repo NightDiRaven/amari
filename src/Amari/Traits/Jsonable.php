@@ -4,8 +4,6 @@ namespace Amari\Traits;
 
 use Amari\Contracts\JsonCastContract;
 use Amari\Contracts\JsonableContract;
-use Amari\Files\File;
-use Amari\Files\Image;
 use Illuminate\Support\Collection;
 
 /**
@@ -205,6 +203,14 @@ trait Jsonable
     /**
      * Get json casts array.
      *
+     * example:
+     *   'image' => function ($value) {
+     *       return new Image($value);
+     *   },
+     *   'file'  => function ($value) {
+     *       return new File($value);
+     *   },
+     *
      * @return array
      */
     protected function getJsonCasts(): array
@@ -212,14 +218,7 @@ trait Jsonable
         if (property_exists(static::class, 'jsonCasts')) {
             return static::$jsonCasts;
         }
-        return [
-        'image' => function ($value) {
-            return new Image($value);
-        },
-        'file'  => function ($value) {
-            return new File($value);
-        },
-    ];
+        return [];
     }
 
     /**
