@@ -88,6 +88,14 @@ class File
         ]) : '';
     }
 
+    public function cuteInfo()
+    {
+        return ($filename = $this->resolvePath()) ?  [
+            'type' => IlluminateFile::extension($filename),
+            'size' => round(IlluminateFile::size($filename) / 1000000, 2),
+        ] : '';
+    }
+
     /**
      * @return bool|string
      */
@@ -117,7 +125,7 @@ class File
         $path = static::getUploadPath().'/';
 
         if ($saveName) {
-            $filename = $file->getClientOriginalName();
+            $filename = str_slug(pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME),'_').'.'.$file->getClientOriginalExtension();
             if (!$overwrite) {
                 $count = 0;
                 while (file_exists($path.$filename)) {

@@ -10,7 +10,8 @@ class Language extends Model
     public $timestamps = false;
     public $fillable = ['title', 'code', 'main'];
 
-    public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
+//	public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
+    public function belongsToMany($related, $table = NULL, $foreignPivotKey = NULL, $relatedPivotKey = NULL, $parentKey = NULL, $relatedKey = NULL, $relation = NULL)
     {
         $instance = with(new $class());
         $table = $instance->getTable();

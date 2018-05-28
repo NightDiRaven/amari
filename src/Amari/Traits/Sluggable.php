@@ -87,11 +87,11 @@ trait Sluggable
 
         // generate slug from source if it was not provided
         $slug = Str::slug(empty($attrs[$slugField]) ? $this->attributes[$slugSource] : $attrs[$slugField]);
-
+        $slug = strlen($slug) > 200 ? substr($slug, 0, 250) : $slug;
         // check unique
         $original = $slug ? $slug : 'none';
         $num = 0;
-        while (true) {
+        while ( true ) {
             $q = static::where($slugField, $slug);
             // exclude item itself from checking
             if ($this->exists) {
