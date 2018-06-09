@@ -11,8 +11,6 @@ use Illuminate\Support\Collection;
 /**
  * Class Model.
  *
- * @method \Illuminate\Database\Query\Builder whereIn($key, array $hash)
- * @method \Illuminate\Database\Eloquent\Collection get()
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {
