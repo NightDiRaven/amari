@@ -27,7 +27,7 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
                 $item->generateSlug();
             }
         });
-        if ((in_array(TranslatableContract::class, class_implements(static::class)))) {
+        if (\in_array(TranslatableContract::class, class_implements(static::class), true)) {
             static::saved(function (Model $item) {
                 $item->saveLangs();
             });
@@ -71,7 +71,7 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
     public function getImages(string $field): array
     {
         $images = json_decode($this->{$field}, true);
-        if (is_array($images)) {
+        if (\is_array($images)) {
             foreach ($images as &$image) {
                 $image = new Image($image['file']);
                 if (!$image->exists()) {

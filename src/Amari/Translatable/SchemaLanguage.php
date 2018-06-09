@@ -70,8 +70,8 @@ class SchemaLanguage
      */
     public static function drop($name)
     {
-        Schema::drop(self::formatName($name));
-        Schema::drop($name);
+        Schema::dropIfExists(self::formatName($name));
+        Schema::dropIfExists($name);
     }
 
     /**
@@ -100,7 +100,7 @@ class SchemaLanguage
     {
         $tname = config('langs.db.table_name');
 
-        return !Schema::hasTable($tname) ?: Schema::drop($tname);
+        return Schema::dropIfExists($tname);
     }
 
     /**
